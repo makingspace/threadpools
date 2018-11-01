@@ -1,4 +1,4 @@
-import macros, cpuinfo
+import macros, cpuinfo, options
 
 when not compileOption("threads"):
     {.error: "ThreadPool requires --threads:on compiler option".}
@@ -42,6 +42,14 @@ type
         chanFrom: ChannelFromPtr
 
     ThreadType = Thread[ThreadProcArgs]
+
+proc isNil(tp: ThreadPool): bool = isNone(option(tp))
+
+proc isNil(tps: seq[ThreadPool]): bool = isNone(option(tps))
+
+proc isNil(tts: seq[ThreadType]): bool = isNone(option(tts))
+
+proc isNil(fv: FlowVar): bool = isNone(option(fv))
 
 template isReadyAux(v: FlowVarBase): bool = v.tp.isNil
 
